@@ -6,6 +6,10 @@ int main() {
     
     std::cout << x;
 
+    x.playTurn();
+
+    std::cout << x;
+
     return 0;
 
 }
