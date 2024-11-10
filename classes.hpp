@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <limits>
 
 const char visuals[3] = {'w', 'b', ' '};
 
@@ -17,6 +19,7 @@ class Board {
         int total_moves;
         int total_wins[2];
         int total_pieces[2];
+        std::vector<Move> move_history;
         Color grid[8][8];
 
         friend std::ostream& operator<<(std::ostream& os, const Board& board);
@@ -59,6 +62,7 @@ void Board::playTurn() {
 
     grid[current_move.startY][current_move.startX] = NONE;
     grid[current_move.endY][current_move.endX] = currentColor;
+    move_history.push_back(current_move);
 
     increaseTotalMoves();
 }
@@ -68,8 +72,23 @@ Move Board::getMove(Color currentColor) {
     char startX, endX;
     int startY, endY;
     std::cin >> startX >> startY;
+    if(std::cin.fail() || startY < 1 || startY > 8 || startX < 'a' || startX > 'h' || grid[startY - 1][startX - 'a'] != currentColor) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid input. Try again." << std::endl;
+        return getMove(currentColor);
+    }
+
     std::cout << "Type the coordinates of destination (e.g., b2): ";
     std::cin >> endX >> endY;
+
+    if(std::cin.fail() || endY < 1 || endY > 8 || endX < 'a' || endX > 'h' || grid[endY - 1][endX - 'a'] != NONE) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid input. Try again." << std::endl;
+        return getMove(currentColor);
+    }
+
     return {startX - 'a', startY - 1, endX - 'a', endY - 1};
 }
 
