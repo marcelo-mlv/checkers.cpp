@@ -11,7 +11,10 @@ enum Color {
 };
 
 struct Move {
-    int startX, startY, endX, endY;
+    int startX;
+    int startY;
+    int endX;
+    int endY;
 };
 
 class Board {
@@ -46,7 +49,7 @@ Board::Board() {
         for(int j = 0; j < 8; j++)
             grid[i][j] = NONE;
     
-    // Generating black/white pieces
+    // generating black/white pieces
     for(int i = 0; i < 3; i++) {
         for(int j = 0; j < 4; j++) {
             int exp = 2*j+(i+1)%2;
@@ -56,6 +59,7 @@ Board::Board() {
     }
 }
 
+// changes the chosen piece's position on the board
 void Board::playTurn() {
     Color currentColor = getCurrentColorTurn();
     struct Move current_move = getMove(currentColor);
@@ -67,6 +71,7 @@ void Board::playTurn() {
     increaseTotalMoves();
 }
 
+// gets move input from user
 Move Board::getMove(Color currentColor) {
     std::cout << "Type the coordinates of the piece you would like to move (e.g., a1): ";
     char startX, endX;
@@ -92,6 +97,7 @@ Move Board::getMove(Color currentColor) {
     return {startX - 'a', startY - 1, endX - 'a', endY - 1};
 }
 
+// overloads the << operator to print the board
 std::ostream& operator<<(std::ostream& os, const Board& board) {
     for(int i = 0; i < 8; i++) {
         os << i+1 << "  ";
