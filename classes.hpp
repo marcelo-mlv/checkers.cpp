@@ -1,8 +1,10 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include <limits>
 
 const char visuals[3] = {'w', 'b', ' '};
+const std::string colors[3] = {"white", "black", " "};
 
 enum Color {
     white,
@@ -99,6 +101,7 @@ Move Board::getMove(Color currentColor) {
 
 // overloads the << operator to print the board
 std::ostream& operator<<(std::ostream& os, const Board& board) {
+    os << "=-= " << colors[board.getColorTurn()] << " turn " << "=-=" << std::endl;
     for(int i = 0; i < 8; i++) {
         os << i+1 << "  ";
         for(int j = 0; j < 8; j++)
