@@ -26,12 +26,12 @@ class Board {
         Color grid[8][8];
 
         friend std::ostream& operator<<(std::ostream& os, const Board& board);
+        bool checkEndgame() const {return total_pieces[white] == 0 || total_pieces[black] == 0;}
         Move getMove(Color currentColor);
-        Color getCurrentColorTurn() { return total_moves % 2 == 0 ? black : white; }
-        bool checkEndgame() {return total_pieces[white] == 0 || total_pieces[black] == 0;}
         void decreasePieceCount(Color p) { total_pieces[p]++; }
         void increaseTotalMoves() { total_moves++; }
     public:
+        Color getColorTurn() const { return total_moves % 2 == 0 ? black : white; }
         void playTurn();
         Board();
         void increaseWinCount(Color p) { total_wins[p]++; }
@@ -61,7 +61,7 @@ Board::Board() {
 
 // changes the chosen piece's position on the board
 void Board::playTurn() {
-    Color currentColor = getCurrentColorTurn();
+    Color currentColor = getColorTurn();
     struct Move current_move = getMove(currentColor);
 
     grid[current_move.startY][current_move.startX] = NONE;
