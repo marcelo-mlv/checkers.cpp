@@ -6,12 +6,14 @@
 const char visuals[3] = {'w', 'b', ' '};
 const std::string colors[3] = {"white", "black", " "};
 
+// list of all values a position on grid can assume
 enum Color {
     white,
     black,
     NONE
 };
 
+// the variables correspond to the respective indexation at grid. e.g, b3 to a4 would correspond to [1][4] to [0][5]
 struct Move {
     int startX;
     int startY;
@@ -39,6 +41,7 @@ class Board {
         void increaseWinCount(Color p) { total_wins[p]++; }
 };
 
+// board class constructor
 Board::Board() {
     total_moves = 0;
     total_wins[white] = 0;
@@ -47,11 +50,12 @@ Board::Board() {
     total_pieces[white] = 0;
     total_pieces[black] = 0;
     
+    // initializes as empty board
     for(int i = 0; i < 8; i++)
         for(int j = 0; j < 8; j++)
             grid[i][j] = NONE;
     
-    // generating black/white pieces
+    // generates black/white pieces
     for(int i = 0; i < 3; i++) {
         for(int j = 0; j < 4; j++) {
             int exp = 2*j+(i+1)%2;
@@ -61,7 +65,7 @@ Board::Board() {
     }
 }
 
-// changes the chosen piece's position on the board
+// changes a given piece's position on the board
 void Board::playTurn() {
     Color currentColor = getColorTurn();
     struct Move current_move = getMove(currentColor);
@@ -79,6 +83,8 @@ Move Board::getMove(Color currentColor) {
     char startX, endX;
     int startY, endY;
     std::cin >> startX >> startY;
+
+    // clears input and checks if it is a valid position
     if(std::cin.fail() || startY < 1 || startY > 8 || startX < 'a' || startX > 'h' || grid[startY - 1][startX - 'a'] != currentColor) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -89,6 +95,7 @@ Move Board::getMove(Color currentColor) {
     std::cout << "Type the coordinates of destination (e.g., b2): ";
     std::cin >> endX >> endY;
 
+    // clears input and checks if it is a valid position
     if(std::cin.fail() || endY < 1 || endY > 8 || endX < 'a' || endX > 'h' || grid[endY - 1][endX - 'a'] != NONE) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -96,6 +103,7 @@ Move Board::getMove(Color currentColor) {
         return getMove(currentColor);
     }
 
+    // converts variables for the move struct
     return {startX - 'a', startY - 1, endX - 'a', endY - 1};
 }
 
