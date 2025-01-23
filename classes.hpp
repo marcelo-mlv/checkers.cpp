@@ -13,6 +13,16 @@ enum Color {
     NONE
 };
 
+struct pos {
+    int x;
+    int y;
+
+    friend std::ostream& operator<<(std::ostream& os, const pos& position) {
+        os << char(position.x + 'a') << position.y + 1 <<  ", (" << position.x << ", " << position.y << ")";
+        return os;
+    }
+};
+
 // the variables correspond to the respective indexation at grid. e.g, b3 to a4 would correspond to [1][4] to [0][5]
 struct Move {
     int startX;
@@ -34,6 +44,7 @@ class Board {
         Move getMove(Color currentColor);
         void decreasePieceCount(Color p) { total_pieces[p]++; }
         void increaseTotalMoves() { total_moves++; }
+        std::vector<pos> getPieceMoves(pos piece_pos, Color currentColor);
     public:
         Color getColorTurn() const { return total_moves % 2 == 0 ? black : white; }
         void playTurn();
@@ -77,6 +88,27 @@ void Board::playTurn() {
     increaseTotalMoves();
 }
 
+// return all possible moves from a given piece (no captures for now)
+std::vector<pos> Board::getPieceMoves(pos piece_pos, Color currentColor) {
+    std::vector<pos> possible_moves;
+    int dir = currentColor == black ? 1 : -1;
+
+    if(piece_pos.y + dir < 0 || piece_pos.y + dir > 7)
+        return possible_moves;
+
+    if(piece_pos.x != 7 && grid[piece_pos.y + dir][piece_pos.x + 1] == NONE)
+        possible_moves.push_back({piece_pos.x + 1, piece_pos.y + dir});
+
+    if(piece_pos.x != 0 && grid[piece_pos.y + dir][piece_pos.x - 1] == NONE)
+        possible_moves.push_back({piece_pos.x - 1, piece_pos.y + dir});
+
+    for(int i = 0; i < possible_moves.size(); i++) {
+        std::cout << possible_moves[i] << std::endl;
+    }
+
+    return possible_moves;
+}
+
 // gets move input from user
 Move Board::getMove(Color currentColor) {
     std::cout << "Type the coordinates of the piece you would like to move (e.g., a1): ";
@@ -91,6 +123,8 @@ Move Board::getMove(Color currentColor) {
         std::cout << "Invalid input. Try again." << std::endl;
         return getMove(currentColor);
     }
+
+    std::vector<pos> possible_moves = getPieceMoves({startX - 'a', startY - 1}, currentColor);
 
     std::cout << "Type the coordinates of destination (e.g., b2): ";
     std::cin >> endX >> endY;
