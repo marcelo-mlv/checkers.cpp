@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <limits>
+#include <stdlib.h>
 
 const char visuals[3] = {'w', 'b', ' '};
 const std::string colors[3] = {"white", "black", " "};
@@ -102,10 +103,6 @@ std::vector<pos> Board::getPieceMoves(pos piece_pos, Color currentColor) {
     if(piece_pos.x != 0 && grid[piece_pos.y + dir][piece_pos.x - 1] == NONE)
         possible_moves.push_back({piece_pos.x - 1, piece_pos.y + dir});
 
-    for(int i = 0; i < possible_moves.size(); i++) {
-        std::cout << possible_moves[i] << std::endl;
-    }
-
     return possible_moves;
 }
 
@@ -121,22 +118,46 @@ Move Board::getMove(Color currentColor) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Invalid input. Try again." << std::endl;
+        
+        system("pause");
+        system("cls");
+        std::cout << *this;
         return getMove(currentColor);
     }
 
     std::vector<pos> possible_moves = getPieceMoves({startX - 'a', startY - 1}, currentColor);
 
-    std::cout << "Type the coordinates of destination (e.g., b2): ";
-    std::cin >> endX >> endY;
+    if (possible_moves.size() == 0) {
+        std::cout << "No possible moves for this piece. Try again." << std::endl;
 
-    // clears input and checks if it is a valid position
-    if(std::cin.fail() || endY < 1 || endY > 8 || endX < 'a' || endX > 'h' || grid[endY - 1][endX - 'a'] != NONE) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Invalid input. Try again." << std::endl;
+        system("pause");
+        system("cls");
+        std::cout << *this;
         return getMove(currentColor);
     }
 
+    std::cout << "Type the coordinates of destination (e.g., b2): ";
+    std::cin >> endX >> endY;
+
+    bool valid = false;
+    for(int i = 0; i < possible_moves.size(); i++)
+        if(possible_moves[i].x == endX - 'a' && possible_moves[i].y == endY - 1)
+            valid = true;
+
+    // clears input and checks if it is a valid position
+    if(std::cin.fail() || !valid) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid input. Try again." << std::endl;
+
+        system("pause");
+        system("cls");
+        std::cout << *this;
+        return getMove(currentColor);
+    }
+
+    system("cls");
+    
     // converts variables for the move struct
     return {startX - 'a', startY - 1, endX - 'a', endY - 1};
 }
