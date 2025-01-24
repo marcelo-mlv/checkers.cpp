@@ -40,20 +40,35 @@ class Board {
         std::vector<Move> move_history;
         Color grid[8][8];
 
+        // overloads the << operator to print the board
         friend std::ostream& operator<<(std::ostream& os, const Board& board);
+
+        // gets move input from the user and validates it
         Move getMove(Color currentColor);
-        void decreasePieceCount(Color p) { total_pieces[p]++; }
+
+        void decreaseTotalPieces(Color p) { total_pieces[p]--; }
         void increaseTotalMoves() { total_moves++; }
         std::vector<pos> getPieceMoves(pos piece_pos, Color currentColor);
+
     public:
-        bool checkEndgame() const {return total_pieces[white] == 0 || total_pieces[black] == 0;}
+        // checks if the game has ended by checking if one of the players has no pieces left
+        Color checkEndgame();
+
+        // determines the current player's turn based on the total number of moves
         Color getColorTurn() const { return total_moves % 2 == 0 ? black : white; }
+
+        // executes a turn by moving a piece according to the current player's input
         void playTurn();
-        Board();
+
+        // increases the win count for the given color
         void increaseWinCount(Color p) { total_wins[p]++; }
+
+        // constructor declaration
+        Board();
 };
 
 // board class constructor
+// initializes the board with the starting positions of the pieces and sets the initial game state
 Board::Board() {
     total_moves = 0;
     total_wins[white] = 0;
@@ -73,6 +88,8 @@ Board::Board() {
             int exp = 2*j+(i+1)%2;
             grid[i][exp] = black;
             grid[7-i][7-exp] = white;
+            total_pieces[white]++;
+            total_pieces[black]++;
         }
     }
 }
@@ -88,8 +105,8 @@ void Board::playTurn() {
 
     increaseTotalMoves();
 }
-
-// return all possible moves from a given piece (no captures for now)
+// returns all possible moves from a given piece (no captures for now)
+// them moves are determined based on the current position of the piece and its color
 std::vector<pos> Board::getPieceMoves(pos piece_pos, Color currentColor) {
     std::vector<pos> possible_moves;
     int dir = currentColor == black ? 1 : -1;
