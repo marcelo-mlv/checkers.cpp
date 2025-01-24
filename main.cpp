@@ -4,10 +4,12 @@
 int main() {
     Board x;
 
-    while(x.checkEndgame()) {
+    while(x.checkEndgame() == NONE) {
         std::cout << x;
         x.playTurn();
     }
+
+    system("pause");
 
     return 0;
 }

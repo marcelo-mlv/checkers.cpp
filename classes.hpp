@@ -18,13 +18,14 @@ struct pos {
     int x;
     int y;
 
+    // overloads the << operator to print the position in a readable format
     friend std::ostream& operator<<(std::ostream& os, const pos& position) {
         os << char(position.x + 'a') << position.y + 1 <<  ", (" << position.x << ", " << position.y << ")";
         return os;
     }
 };
 
-// the variables correspond to the respective indexation at grid. e.g, b3 to a4 would correspond to [1][4] to [0][5]
+// the variables correspond to the respective indexation at grid e.g, b3 to a4 would correspond to [1][4] to [0][5]
 struct Move {
     int startX;
     int startY;
@@ -94,6 +95,20 @@ Board::Board() {
     }
 }
 
+Color Board::checkEndgame() {
+    if(total_pieces[white] == 0) {
+        increaseWinCount(black);
+        std::cout << "Black wins!" << std::endl;
+        return black;
+    }
+    if(total_pieces[black] == 0) {
+        increaseWinCount(white);
+        std::cout << "White wins!" << std::endl;
+        return white;
+    }
+    return NONE;
+}
+
 // changes a given piece's position on the board
 void Board::playTurn() {
     Color currentColor = getColorTurn();
@@ -101,6 +116,12 @@ void Board::playTurn() {
 
     grid[current_move.startY][current_move.startX] = NONE;
     grid[current_move.endY][current_move.endX] = currentColor;
+
+    if(current_move.startX - current_move.endX == 2 || current_move.startX - current_move.endX == -2) {
+        grid[(current_move.startY + current_move.endY)/2][(current_move.startX + current_move.endX)/2] = NONE;
+        decreaseTotalPieces(currentColor);
+    }
+
     move_history.push_back(current_move);
 
     increaseTotalMoves();
@@ -114,11 +135,21 @@ std::vector<pos> Board::getPieceMoves(pos piece_pos, Color currentColor) {
     if(piece_pos.y + dir < 0 || piece_pos.y + dir > 7)
         return possible_moves;
 
-    if(piece_pos.x != 7 && grid[piece_pos.y + dir][piece_pos.x + 1] == NONE)
-        possible_moves.push_back({piece_pos.x + 1, piece_pos.y + dir});
+    if(piece_pos.x != 7) {
+        if(grid[piece_pos.y + dir][piece_pos.x + 1] == NONE)
+            possible_moves.push_back({piece_pos.x + 1, piece_pos.y + dir});
+        else if(grid[piece_pos.y + dir][piece_pos.x + 1] != currentColor)
+            if(piece_pos.y + 2*dir >= 0 && piece_pos.y + 2*dir <= 7 && piece_pos.x + 2 <= 7 && grid[piece_pos.y + 2*dir][piece_pos.x + 2] == NONE)
+                possible_moves.push_back({piece_pos.x + 2, piece_pos.y + 2*dir});
+    }
 
-    if(piece_pos.x != 0 && grid[piece_pos.y + dir][piece_pos.x - 1] == NONE)
-        possible_moves.push_back({piece_pos.x - 1, piece_pos.y + dir});
+    if(piece_pos.x != 0) {
+        if(grid[piece_pos.y + dir][piece_pos.x - 1] == NONE)
+            possible_moves.push_back({piece_pos.x - 1, piece_pos.y + dir});
+        else if(grid[piece_pos.y + dir][piece_pos.x - 1] != currentColor)
+            if(piece_pos.y + 2*dir >= 0 && piece_pos.y + 2*dir <= 7 && piece_pos.x - 2 >= 0 && grid[piece_pos.y + 2*dir][piece_pos.x - 2] == NONE)
+                possible_moves.push_back({piece_pos.x - 2, piece_pos.y + 2*dir});
+    }
 
     return possible_moves;
 }
