@@ -27,10 +27,8 @@ struct pos {
 
 // the variables correspond to the respective indexation at grid e.g, b3 to a4 would correspond to [1][4] to [0][5]
 struct Move {
-    int startX;
-    int startY;
-    int endX;
-    int endY;
+    pos startPos;
+    pos endPos;
 };
 
 class Board {
@@ -114,11 +112,11 @@ void Board::playTurn() {
     Color currentColor = getColorTurn();
     struct Move current_move = getMove(currentColor);
 
-    grid[current_move.startY][current_move.startX] = NONE;
-    grid[current_move.endY][current_move.endX] = currentColor;
+    grid[current_move.startPos.y][current_move.startPos.x] = NONE;
+    grid[current_move.endPos.y][current_move.endPos.x] = currentColor;
 
-    if(current_move.startX - current_move.endX == 2 || current_move.startX - current_move.endX == -2) {
-        grid[(current_move.startY + current_move.endY)/2][(current_move.startX + current_move.endX)/2] = NONE;
+    if(current_move.startPos.x - current_move.endPos.x == 2 || current_move.startPos.x - current_move.endPos.x == -2) {
+        grid[(current_move.startPos.y + current_move.endPos.y)/2][(current_move.startPos.x + current_move.endPos.x)/2] = NONE;
         decreaseTotalPieces(currentColor);
     }
 
@@ -207,7 +205,7 @@ Move Board::getMove(Color currentColor) {
     system("cls");
 
     // converts variables for the move struct
-    return {startX - 'a', startY - 1, endX - 'a', endY - 1};
+    return {{startX - 'a', startY - 1}, {endX - 'a', endY - 1}};
 }
 
 // overloads the << operator to print the board
