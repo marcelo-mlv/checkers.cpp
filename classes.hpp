@@ -14,6 +14,7 @@ enum Color {
     NONE
 };
 
+// the variables correspond to the respective indexation at grid e.g, b3 is x = 1, y = 2
 struct pos {
     int x;
     int y;
@@ -25,7 +26,6 @@ struct pos {
     }
 };
 
-// the variables correspond to the respective indexation at grid e.g, b3 to a4 would correspond to [1][4] to [0][5]
 struct Move {
     pos startPos;
     pos endPos;
