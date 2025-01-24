@@ -41,12 +41,12 @@ class Board {
         Color grid[8][8];
 
         friend std::ostream& operator<<(std::ostream& os, const Board& board);
-        bool checkEndgame() const {return total_pieces[white] == 0 || total_pieces[black] == 0;}
         Move getMove(Color currentColor);
         void decreasePieceCount(Color p) { total_pieces[p]++; }
         void increaseTotalMoves() { total_moves++; }
         std::vector<pos> getPieceMoves(pos piece_pos, Color currentColor);
     public:
+        bool checkEndgame() const {return total_pieces[white] == 0 || total_pieces[black] == 0;}
         Color getColorTurn() const { return total_moves % 2 == 0 ? black : white; }
         void playTurn();
         Board();
@@ -157,7 +157,7 @@ Move Board::getMove(Color currentColor) {
     }
 
     system("cls");
-    
+
     // converts variables for the move struct
     return {startX - 'a', startY - 1, endX - 'a', endY - 1};
 }

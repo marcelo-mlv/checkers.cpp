@@ -3,13 +3,11 @@
 
 int main() {
     Board x;
-    
-    std::cout << x;
 
-    x.playTurn();
-
-    std::cout << x;
+    while(x.checkEndgame()) {
+        std::cout << x;
+        x.playTurn();
+    }
 
     return 0;
-
 }
