@@ -1,5 +1,5 @@
-#include <iostream>
-#include "classes.hpp"
+#include "classes/board.cpp"
+#include <stdlib.h>
 
 int main() {
     Board x;

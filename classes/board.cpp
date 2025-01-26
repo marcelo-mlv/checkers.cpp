@@ -1,70 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <limits>
+#include "board.hpp"
 #include <stdlib.h>
-
-const char visuals[3] = {'w', 'b', ' '};
-const std::string colors[3] = {"white", "black", " "};
-
-// list of all values a position on grid can assume
-enum Color {
-    white,
-    black,
-    NONE
-};
-
-// the variables correspond to the respective indexation at grid e.g, b3 is x = 1, y = 2
-struct pos {
-    int x;
-    int y;
-
-    // overloads the << operator to print the position in a readable format
-    friend std::ostream& operator<<(std::ostream& os, const pos& position) {
-        os << char(position.x + 'a') << position.y + 1 <<  ", (" << position.x << ", " << position.y << ")";
-        return os;
-    }
-};
-
-struct Move {
-    pos startPos;
-    pos endPos;
-};
-
-class Board {
-    private:
-        int total_moves;
-        int total_wins[2];
-        int total_pieces[2];
-        std::vector<Move> move_history;
-        Color grid[8][8];
-
-        // overloads the << operator to print the board
-        friend std::ostream& operator<<(std::ostream& os, const Board& board);
-
-        // gets move input from the user and validates it
-        Move getMove(Color currentColor);
-
-        void decreaseTotalPieces(Color p) { total_pieces[p]--; }
-        void increaseTotalMoves() { total_moves++; }
-        std::vector<pos> getPieceMoves(pos piece_pos, Color currentColor);
-
-    public:
-        // checks if the game has ended by checking if one of the players has no pieces left
-        Color checkEndgame();
-
-        // determines the current player's turn based on the total number of moves
-        Color getColorTurn() const { return total_moves % 2 == 0 ? black : white; }
-
-        // executes a turn by moving a piece according to the current player's input
-        void playTurn();
-
-        // increases the win count for the given color
-        void increaseWinCount(Color p) { total_wins[p]++; }
-
-        // constructor declaration
-        Board();
-};
 
 // board class constructor
 // initializes the board with the starting positions of the pieces and sets the initial game state
@@ -124,6 +59,7 @@ void Board::playTurn() {
 
     increaseTotalMoves();
 }
+
 // returns all possible moves from a given piece (no captures for now)
 // them moves are determined based on the current position of the piece and its color
 std::vector<pos> Board::getPieceMoves(pos piece_pos, Color currentColor) {
