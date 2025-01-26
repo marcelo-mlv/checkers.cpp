@@ -1,15 +1,15 @@
 #include "constants.hpp"
 
-class Board {
+class Game {
     private:
         int total_moves;
         int total_wins[2];
         int total_pieces[2];
         std::vector<Move> move_history;
-        Color grid[8][8];
+        Color board[8][8];
 
         // overloads the << operator to print the board
-        friend std::ostream& operator<<(std::ostream& os, const Board& board);
+        friend std::ostream& operator<<(std::ostream& os, const Game& board);
 
         // gets move input from the user and validates it
         Move getMove(Color currentColor);
@@ -32,5 +32,5 @@ class Board {
         void increaseWinCount(Color p) { total_wins[p]++; }
 
         // constructor declaration
-        Board();
+        Game();
 };

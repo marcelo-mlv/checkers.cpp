@@ -1,15 +1,7 @@
 #include "classes/game.cpp"
-#include <stdlib.h>
 
 int main() {
-    Board x;
-
-    while(x.checkEndgame() == NONE) {
-        std::cout << x;
-        x.playTurn();
-    }
-
-    system("pause");
+    Game x;
 
     return 0;
 }
