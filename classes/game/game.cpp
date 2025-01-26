@@ -1,12 +1,11 @@
 #include "game.hpp"
+#include <limits>
 #include <stdlib.h>
 
 // Game class constructor
 // initializes the board with the starting positions of the pieces and sets the initial game state
 Game::Game() {
     total_moves = 0;
-    total_wins[white] = 0;
-    total_wins[black] = 0;
 
     total_pieces[white] = 0;
     total_pieces[black] = 0;
@@ -32,27 +31,6 @@ Game::Game() {
     // board[3][4] = black;
     // total_pieces[white]++;
     // total_pieces[black]++;
-
-    // game execution
-    while(this->checkEndgame() == NONE) {
-        std::cout << *this;
-        this->playTurn();
-    }
-    system("pause");
-}
-
-Color Game::checkEndgame() {
-    if(total_pieces[white] == 0) {
-        increaseWinCount(black);
-        std::cout << "Black wins!" << std::endl;
-        return black;
-    }
-    if(total_pieces[black] == 0) {
-        increaseWinCount(white);
-        std::cout << "White wins!" << std::endl;
-        return white;
-    }
-    return NONE;
 }
 
 // changes a given piece's position on the board
@@ -75,8 +53,8 @@ void Game::playTurn() {
 
 // returns all possible moves from a given piece (no captures for now)
 // them moves are determined based on the current position of the piece and its color
-std::vector<pos> Game::getPieceMoves(pos piece_pos, Color currentColor) {
-    std::vector<pos> possible_moves;
+std::vector<Pos> Game::getPieceMoves(Pos piece_pos, Color currentColor) {
+    std::vector<Pos> possible_moves;
     int dir = currentColor == black ? 1 : -1;
 
     if(piece_pos.y + dir < 0 || piece_pos.y + dir > 7)
@@ -120,7 +98,7 @@ Move Game::getMove(Color currentColor) {
         return getMove(currentColor);
     }
 
-    std::vector<pos> possible_moves = getPieceMoves({startX - 'a', startY - 1}, currentColor);
+    std::vector<Pos> possible_moves = getPieceMoves({startX - 'a', startY - 1}, currentColor);
 
     if (possible_moves.size() == 0) {
         std::cout << "No possible moves for this piece. Try another one." << std::endl;

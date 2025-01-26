@@ -1,7 +1,8 @@
-#include "classes/game.cpp"
+#include "classes/system/system.cpp"
 
 int main() {
-    Game x;
+    System s;
+    s.newGame();
 
     return 0;
 }

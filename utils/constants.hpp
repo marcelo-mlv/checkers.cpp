@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <limits>
 
 const char visuals[3] = {'w', 'b', ' '};
 const std::string colors[3] = {"white", "black", " "};
@@ -14,12 +13,12 @@ enum Color {
 };
 
 // the variables correspond to the respective indexation at grid e.g, b3 is x = 1, y = 2
-struct pos {
+struct Pos {
     int x;
     int y;
 
     // overloads the << operator to print the position in a readable format
-    friend std::ostream& operator<<(std::ostream& os, const pos& position) {
+    friend std::ostream& operator<<(std::ostream& os, const Pos& position) {
         os << char(position.x + 'a') << position.y + 1 <<  ", (" << position.x << ", " << position.y << ")";
         return os;
     }
@@ -27,6 +26,12 @@ struct pos {
 
 // struct to store the start and end positions of a move
 struct Move {
-    pos startPos;
-    pos endPos;
+    Pos startPos;
+    Pos endPos;
+
+    // overloads the << operator to print the move in a readable format
+    friend std::ostream& operator<<(std::ostream& os, const Move& move) {
+        os << "Move from " << move.startPos << " to " << move.endPos;
+        return os;
+    }
 };

@@ -1,9 +1,8 @@
-#include "constants.hpp"
+#include "../../utils/constants.hpp"
 
 class Game {
-    private:
+    private: 
         int total_moves;
-        int total_wins[2];
         int total_pieces[2];
         std::vector<Move> move_history;
         Color board[8][8];
@@ -16,20 +15,17 @@ class Game {
 
         void decreaseTotalPieces(Color p) { total_pieces[p]--; }
         void increaseTotalMoves() { total_moves++; }
-        std::vector<pos> getPieceMoves(pos piece_pos, Color currentColor);
+        std::vector<Pos> getPieceMoves(Pos piece_pos, Color currentColor);
 
     public:
-        // checks if the game has ended by checking if one of the players has no pieces left
-        Color checkEndgame();
-
         // determines the current player's turn based on the total number of moves
         Color getColorTurn() const { return total_moves % 2 == 0 ? black : white; }
 
         // executes a turn by moving a piece according to the current player's input
         void playTurn();
 
-        // increases the win count for the given color
-        void increaseWinCount(Color p) { total_wins[p]++; }
+        // returns the total number of pieces of a given color
+        int getTotalPieces(Color p) const { return total_pieces[p]; }
 
         // constructor declaration
         Game();
