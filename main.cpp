@@ -1,4 +1,4 @@
-#include "classes/board.cpp"
+#include "classes/game.cpp"
 #include <stdlib.h>
 
 int main() {

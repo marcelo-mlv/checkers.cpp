@@ -1,4 +1,4 @@
-#include "board.hpp"
+#include "game.hpp"
 #include <stdlib.h>
 
 // board class constructor
