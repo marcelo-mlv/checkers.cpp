@@ -11,13 +11,13 @@ class System {
         // increases the win count for the given color
         void increaseWinCount(Color p) { total_wins[p]++; }
 
-    public:
         // starts the main game loop
         void newGame();
 
         // initial message
         void welcomeMessage();
 
+    public:
         // constructor declaration
         System();
 };
