@@ -4,6 +4,9 @@
 System::System() {
     total_wins[white] = 0;
     total_wins[black] = 0;
+    
+    welcomeMessage();
+    newGame();
 }
 
 void System::newGame() {
@@ -29,4 +32,13 @@ Color System::checkEndgame(Game &game) {
         return white;
     }
     return NONE;
+}
+
+void System::welcomeMessage() {
+    std::cout << "=-=-=-=-=-=-=-=-=-=-=" << std::endl;
+    std::cout << " Welcome to Checkers " << std::endl;
+    std::cout << "       C++ nice      " << std::endl;
+    std::cout << "=-=-=-=-=-=-=-=-=-=-=" << std::endl;
+    system("pause");
+    system("cls");
 }

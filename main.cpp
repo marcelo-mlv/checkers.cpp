@@ -2,7 +2,6 @@
 
 int main() {
     System s;
-    s.newGame();
 
     return 0;
 }
