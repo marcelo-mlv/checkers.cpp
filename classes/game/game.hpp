@@ -15,8 +15,10 @@ class Game {
 
         void decreaseTotalPieces(Color p) { total_pieces[p]--; }
         void increaseTotalMoves() { total_moves++; }
-        std::vector<Pos> getPieceMoves(Pos piece_pos, Color currentColor);
 
+        // returns all possible moves from a given piece
+        // them moves are determined based on the current position of the piece and its color
+        std::vector<Pos> getPieceMoves(Pos piece_pos, Color currentColor);
     public:
         // determines the current player's turn based on the total number of moves
         Color getColorTurn() const { return total_moves % 2 == 0 ? black : white; }

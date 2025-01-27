@@ -1,6 +1,8 @@
 #include "system.hpp"
 #include <stdlib.h>
 
+// System class constructor
+// initializes the total wins for each team and starts a new game
 System::System() {
     total_wins[white] = 0;
     total_wins[black] = 0;
@@ -12,8 +14,8 @@ System::System() {
 void System::newGame() {
     Game game;
 
-    // game execution
-    while(this->checkEndgame(game) == NONE) {
+    // game loop execution
+    while(checkEndgame(game) == NONE) {
         std::cout << game;
         game.playTurn();
     }
@@ -22,13 +24,13 @@ void System::newGame() {
 
 Color System::checkEndgame(Game &game) {
     if(game.getTotalPieces(white) == 0) {
+        std::cout << colors[black] << " wins!" << std::endl;
         increaseWinCount(black);
-        std::cout << "Black wins!" << std::endl;
         return black;
     }
     if(game.getTotalPieces(black) == 0) {
+        std::cout << colors[white] << " wins!" << std::endl;
         increaseWinCount(white);
-        std::cout << "White wins!" << std::endl;
         return white;
     }
     return NONE;

@@ -2,7 +2,10 @@
 #include <vector>
 #include <string>
 
+// how the board is displayed in the program
 const char visuals[3] = {'w', 'b', ' '};
+
+// each color's name as string
 const std::string colors[3] = {"white", "black", " "};
 
 // enum of all values a position on grid can assume
@@ -12,7 +15,8 @@ enum Color {
     NONE
 };
 
-// the variables correspond to the respective indexation at grid e.g, b3 is x = 1, y = 2
+// x, y correspond to the respective indexation at grid
+// e.g, b3 <=> x = 1, y = 2
 struct Pos {
     int x;
     int y;

@@ -2,9 +2,12 @@
 
 class System {
     private:
+        // checks winning conditions
         Color checkEndgame(Game& game);
-        int total_wins[2];
 
+        // stores the total wins for each team
+        int total_wins[2];
+        
         // increases the win count for the given color
         void increaseWinCount(Color p) { total_wins[p]++; }
 

@@ -33,7 +33,6 @@ Game::Game() {
     // total_pieces[black]++;
 }
 
-// changes a given piece's position on the board
 void Game::playTurn() {
     Color currentColor = getColorTurn();
     struct Move current_move = getMove(currentColor);
@@ -51,8 +50,6 @@ void Game::playTurn() {
     increaseTotalMoves();
 }
 
-// returns all possible moves from a given piece (no captures for now)
-// them moves are determined based on the current position of the piece and its color
 std::vector<Pos> Game::getPieceMoves(Pos piece_pos, Color currentColor) {
     std::vector<Pos> possible_moves;
     int dir = currentColor == black ? 1 : -1;
@@ -79,7 +76,6 @@ std::vector<Pos> Game::getPieceMoves(Pos piece_pos, Color currentColor) {
     return possible_moves;
 }
 
-// gets move input from user
 Move Game::getMove(Color currentColor) {
     std::cout << "Type the coordinates of the piece you would like to move (e.g., a1): ";
     char startX, endX;
@@ -102,7 +98,6 @@ Move Game::getMove(Color currentColor) {
 
     if (possible_moves.size() == 0) {
         std::cout << "No possible moves for this piece. Try another one." << std::endl;
-
         system("pause");
         system("cls");
         std::cout << *this;
@@ -135,7 +130,6 @@ Move Game::getMove(Color currentColor) {
     return {{startX - 'a', startY - 1}, {endX - 'a', endY - 1}};
 }
 
-// overloads the << operator to print the board
 std::ostream& operator<<(std::ostream& os, const Game& game) {
     os << "=-= " << colors[game.getColorTurn()] << " turn " << "=-=" << std::endl;
     for(int i = 0; i < 8; i++) {
