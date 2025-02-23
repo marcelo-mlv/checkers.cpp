@@ -1,4 +1,4 @@
-#include "../../utils/constants.hpp"
+#include <constants.hpp>
 
 class Game {
     private: 

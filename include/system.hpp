@@ -1,4 +1,4 @@
-#include "../game/game.cpp"
+#include <game.hpp>
 
 class System {
     private:

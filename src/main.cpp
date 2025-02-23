@@ -1,4 +1,4 @@
-#include "classes/system/system.cpp"
+#include <system.hpp>
 
 int main() {
     System s;
