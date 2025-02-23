@@ -1,3 +1,6 @@
 *.exe
 *.gch
 .vscode
+
+compile_commands.json
+/build
