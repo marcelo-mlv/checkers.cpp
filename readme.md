@@ -13,7 +13,7 @@ To build and run the project, follow these steps:
 2. **Clone the Repository**: Clone this repository to your local machine.
 
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/marcelo-mlv/checkers.cpp.git
     cd checkers
     ```
 
